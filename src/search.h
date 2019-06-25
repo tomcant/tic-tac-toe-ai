@@ -1,5 +1,5 @@
-#ifndef TICTACTOE_SEARCH_H
-#define TICTACTOE_SEARCH_H
+#ifndef SRC_SEARCH_H_
+#define SRC_SEARCH_H_
 
 #include "board.h"
 
@@ -9,6 +9,6 @@ static const int kMaxEval = +10;
 
 int Search(Board*, int = 0, int = -kMaxEval, int = +kMaxEval);
 
-}; // namespace tictactoe::search
+}  // namespace tictactoe::search
 
-#endif
+#endif  // SRC_SEARCH_H_

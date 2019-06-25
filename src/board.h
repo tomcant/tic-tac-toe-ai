@@ -1,5 +1,5 @@
-#ifndef TICTACTOE_BOARD_H_
-#define TICTACTOE_BOARD_H_
+#ifndef SRC_BOARD_H_
+#define SRC_BOARD_H_
 
 namespace tictactoe {
 
@@ -38,6 +38,6 @@ class Board {
   Player player_to_move_;
 };
 
-} // namespace tictactoe
+}  // namespace tictactoe
 
-#endif
+#endif  // SRC_BOARD_H_

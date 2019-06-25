@@ -63,4 +63,4 @@ void Board::TogglePlayerToMove() {
   player_to_move_ = IsComputerMove() ? kHuman : kComp;
 }
 
-} // namespace tictactoe
+}  // namespace tictactoe

@@ -23,7 +23,7 @@ int Evaluate(Board const &board) {
   }
 }
 
-} // anonymous namespace
+}  // anonymous namespace
 
 int Search(Board *board, int depth, int alpha, int beta) {
   if (board->DetermineGameState() != kPlaying) {
@@ -54,4 +54,4 @@ int Search(Board *board, int depth, int alpha, int beta) {
   return depth > 0 ? alpha : best_move;
 }
 
-} // namespace tictactoe::search
+}  // namespace tictactoe::search
