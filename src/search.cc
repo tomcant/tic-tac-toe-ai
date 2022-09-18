@@ -4,30 +4,23 @@ namespace tictactoe::search {
 
 namespace {
 
-int Evaluate(Board const &board) {
-  GameState state = board.DetermineGameState();
-
-  if (state == kWinHuman || state == kWinComp) {
-    int eval = kMaxEval - board.DetermineOccupancy();
-    int multiplier = state == kWinHuman ? 1 : -1;
-
-    if (board.IsComputerMove()) {
-      multiplier *= -1;
-    }
-
-    return eval * multiplier;
-  }
+int GameOverScore(Board *board) {
+  GameState state = board->DetermineGameState();
 
   if (state == kDraw) {
     return 0;
   }
+
+  int eval = kMaxEval - board->Occupancy();
+
+  return state == kWinHuman && !board->IsComputerMove() ? eval : -eval;
 }
 
 }  // anonymous namespace
 
 int Search(Board *board, int depth, int alpha, int beta) {
-  if (board->DetermineGameState() != kPlaying) {
-    return Evaluate(*board);
+  if (board->IsGameOver()) {
+    return GameOverScore(board);
   }
 
   int best_move = -1;
@@ -38,16 +31,16 @@ int Search(Board *board, int depth, int alpha, int beta) {
     }
 
     board->DoMove(square);
-    int evaluation = -Search(board, depth + 1, -beta, -alpha);
+    int eval = -Search(board, depth + 1, -beta, -alpha);
     board->UndoMove(square);
 
-    if (alpha < evaluation) {
-      alpha = evaluation;
-      best_move = square;
+    if (eval >= beta) {
+      return beta;
+    }
 
-      if (alpha >= beta) {
-        break;
-      }
+    if (eval > alpha) {
+      alpha = eval;
+      best_move = square;
     }
   }
 

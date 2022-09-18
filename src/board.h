@@ -22,12 +22,15 @@ class Board {
   bool IsComputerMove() const;
   bool IsOccupied(unsigned) const;
   bool IsOccupiedBy(unsigned, Player) const;
-  unsigned DetermineOccupancy() const;
+  unsigned Occupancy() const;
   GameState DetermineGameState() const;
 
   void DoMove(unsigned);
   void UndoMove(unsigned);
-  void TogglePlayerToMove();
+
+  inline bool IsGameOver() const {
+    return DetermineGameState() != kPlaying;
+  }
 
   inline Player player_to_move() const {
     return player_to_move_;
@@ -36,6 +39,8 @@ class Board {
  private:
   unsigned grid_[2];
   Player player_to_move_;
+
+  void TogglePlayerToMove();
 };
 
 }  // namespace tictactoe
