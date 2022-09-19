@@ -2,29 +2,21 @@
 
 namespace tictactoe::search {
 
-namespace {
-
-int GameOverScore(Board *board) {
-  return board->DetermineGameState() == kDraw ? 0 : board->Occupancy() - kMaxEval;
-}
-
-}  // anonymous namespace
-
-int Search(Board *board, int depth, int alpha, int beta) {
-  if (board->IsGameOver()) {
-    return GameOverScore(board);
+int search(Board *board, int depth, int alpha, int beta) {
+  if (board->isGameOver()) {
+    return board->gameState() == Draw ? 0 : board->occupancy() - MaxEval;
   }
 
   int best_move = -1;
 
   for (unsigned square = 0; square < 9; ++square) {
-    if (board->IsOccupied(square)) {
+    if (board->isOccupied(square)) {
       continue;
     }
 
-    board->DoMove(square);
-    int eval = -Search(board, depth + 1, -beta, -alpha);
-    board->UndoMove(square);
+    board->doMove(square);
+    int eval = -search(board, depth + 1, -beta, -alpha);
+    board->undoMove(square);
 
     if (eval >= beta) {
       return beta;
@@ -39,4 +31,4 @@ int Search(Board *board, int depth, int alpha, int beta) {
   return depth > 0 ? alpha : best_move;
 }
 
-}  // namespace tictactoe::search
+} // namespace tictactoe::search

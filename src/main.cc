@@ -1,5 +1,5 @@
-#include <iostream>
 #include "search.h"
+#include <iostream>
 
 using std::cin;
 using std::cout;
@@ -9,13 +9,13 @@ using std::ostream;
 using tictactoe::Board;
 using tictactoe::GameState;
 using tictactoe::Player;
-using tictactoe::search::Search;
+using tictactoe::search::search;
 
-ostream& operator<<(ostream &o, Board const &board) {
+ostream &operator<<(ostream &o, Board const &board) {
   for (unsigned square = 0; square < 9; ++square) {
-    if (board.IsOccupiedBy(square, Player::kHuman)) {
+    if (board.isOccupiedBy(square, Player::Human)) {
       o << 'O';
-    } else if (board.IsOccupiedBy(square, Player::kComp)) {
+    } else if (board.isOccupiedBy(square, Player::Comp)) {
       o << 'X';
     } else {
       o << '-';
@@ -35,7 +35,7 @@ int main() {
   Board board;
   cout << board << endl;
 
-  while (!board.IsGameOver()) {
+  while (!board.isGameOver()) {
     int square;
     cin >> square;
 
@@ -44,24 +44,21 @@ int main() {
       continue;
     }
 
-    if (board.IsOccupied(square - 1)) {
+    if (board.isOccupied(square - 1)) {
       cout << "\nThat square is already taken!\n\n";
       continue;
     }
 
-    board.DoMove(square - 1);
+    board.doMove(square - 1);
 
-    if (!board.IsGameOver()) {
-      int best_move = Search(&board);
-      board.DoMove(best_move);
+    if (!board.isGameOver()) {
+      int best_move = search(&board);
+      board.doMove(best_move);
     }
 
     cout << endl << board << endl;
   }
 
-  char const *game_state_str[] = {
-    "You won!", "You lost!", "It's a draw!"
-  };
-
-  cout << game_state_str[board.DetermineGameState()] << endl;
+  char const *game_state_str[] = {"You won!", "You lost!", "It's a draw!"};
+  cout << game_state_str[board.gameState()] << endl;
 }

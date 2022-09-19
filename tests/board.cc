@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-#include "helper.h"
 #include "../src/board.h"
+#include "helper.h"
+#include "gtest/gtest.h"
 
 using tictactoe::Board;
 using tictactoe::GameState;
@@ -10,54 +10,54 @@ TEST(BoardTest, DoMove) {
   Board board;
   unsigned sq = 4;
 
-  board.DoMove(sq);
+  board.doMove(sq);
 
-  EXPECT_TRUE(board.IsComputerMove());
-  EXPECT_TRUE(board.IsOccupied(sq));
-  EXPECT_EQ(board.Occupancy(), 1);
+  EXPECT_TRUE(board.isComputerMove());
+  EXPECT_TRUE(board.isOccupied(sq));
+  EXPECT_EQ(board.occupancy(), 1);
 }
 
 TEST(BoardTest, UndoMove) {
   Board board;
   unsigned sq = 4;
 
-  board.DoMove(sq);
-  board.UndoMove(sq);
+  board.doMove(sq);
+  board.undoMove(sq);
 
-  EXPECT_FALSE(board.IsComputerMove());
-  EXPECT_FALSE(board.IsOccupied(sq));
-  EXPECT_EQ(board.Occupancy(), 0);
+  EXPECT_FALSE(board.isComputerMove());
+  EXPECT_FALSE(board.isOccupied(sq));
+  EXPECT_EQ(board.occupancy(), 0);
 }
 
 TEST(BoardTest, DetectWinForComp) {
   // xox
   // oxo
   // -ox
-  unsigned moves[] = { 1, 0, 3, 2, 5, 4, 7, 8 };
-  Board board = MakeBoard(moves, LEN(moves));
+  unsigned moves[] = {1, 0, 3, 2, 5, 4, 7, 8};
+  Board board = makeBoard(moves, LEN(moves));
 
-  EXPECT_TRUE(board.IsGameOver());
-  EXPECT_EQ(board.DetermineGameState(), GameState::kWinComp);
+  EXPECT_TRUE(board.isGameOver());
+  EXPECT_EQ(board.gameState(), GameState::WinComp);
 }
 
 TEST(BoardTest, DetectWinForHuman) {
   // oxo
   // xox
   // o--
-  unsigned moves[] = { 0, 1, 2, 3, 4, 5, 6 };
-  Board board = MakeBoard(moves, LEN(moves));
+  unsigned moves[] = {0, 1, 2, 3, 4, 5, 6};
+  Board board = makeBoard(moves, LEN(moves));
 
-  EXPECT_TRUE(board.IsGameOver());
-  EXPECT_EQ(board.DetermineGameState(), GameState::kWinHuman);
+  EXPECT_TRUE(board.isGameOver());
+  EXPECT_EQ(board.gameState(), GameState::WinHuman);
 }
 
 TEST(BoardTest, DetectDraw) {
   // xox
   // oxo
   // oxo
-  unsigned moves[] = { 1, 0, 3, 2, 5, 4, 6, 7, 8 };
-  Board board = MakeBoard(moves, LEN(moves));
+  unsigned moves[] = {1, 0, 3, 2, 5, 4, 6, 7, 8};
+  Board board = makeBoard(moves, LEN(moves));
 
-  EXPECT_TRUE(board.IsGameOver());
-  EXPECT_EQ(board.DetermineGameState(), GameState::kDraw);
+  EXPECT_TRUE(board.isGameOver());
+  EXPECT_EQ(board.gameState(), GameState::Draw);
 }

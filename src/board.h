@@ -3,46 +3,33 @@
 
 namespace tictactoe {
 
-enum GameState {
-  kWinHuman,
-  kWinComp,
-  kDraw,
-  kPlaying
-};
-
-enum Player {
-  kHuman,
-  kComp
-};
+enum Player { Human, Comp };
+enum GameState { WinHuman, WinComp, Draw, Playing };
 
 class Board {
- public:
-  Board() : grid_{}, player_to_move_(kHuman) {}
+public:
+  Board() : grid{0, 0}, player_to_move(Human) {}
 
-  bool IsComputerMove() const;
-  bool IsOccupied(unsigned) const;
-  bool IsOccupiedBy(unsigned, Player) const;
-  unsigned Occupancy() const;
-  GameState DetermineGameState() const;
+  bool isOccupied(unsigned) const;
+  bool isOccupiedBy(unsigned, Player) const;
+  unsigned occupancy() const;
+  GameState gameState() const;
 
-  void DoMove(unsigned);
-  void UndoMove(unsigned);
+  void doMove(unsigned);
+  void undoMove(unsigned);
 
-  inline bool IsGameOver() const {
-    return DetermineGameState() != kPlaying;
+  inline bool isComputerMove() const { return player_to_move == Comp; }
+  inline bool isGameOver() const { return gameState() != Playing; }
+
+private:
+  unsigned grid[2];
+  Player player_to_move;
+
+  inline void togglePlayerToMove() {
+    player_to_move = isComputerMove() ? Human : Comp;
   }
-
-  inline Player player_to_move() const {
-    return player_to_move_;
-  }
-
- private:
-  unsigned grid_[2];
-  Player player_to_move_;
-
-  void TogglePlayerToMove();
 };
 
-}  // namespace tictactoe
+} // namespace tictactoe
 
-#endif  // SRC_BOARD_H_
+#endif // SRC_BOARD_H_

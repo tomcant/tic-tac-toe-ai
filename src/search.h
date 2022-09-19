@@ -5,10 +5,10 @@
 
 namespace tictactoe::search {
 
-static const int kMaxEval = +10;
+static const int MaxEval = 10;
 
-int Search(Board*, int = 0, int = -kMaxEval, int = +kMaxEval);
+int search(Board *, int = 0, int = -MaxEval, int = MaxEval);
 
-}  // namespace tictactoe::search
+} // namespace tictactoe::search
 
-#endif  // SRC_SEARCH_H_
+#endif // SRC_SEARCH_H_

@@ -1,60 +1,51 @@
 #include "board.h"
+#include <cstddef>
 
 namespace tictactoe {
 
-bool Board::IsComputerMove() const {
-  return player_to_move() == kComp;
+bool Board::isOccupied(unsigned square) const {
+  return (grid[Human] | grid[Comp]) & 1 << square;
 }
 
-bool Board::IsOccupied(unsigned square) const {
-  return (grid_[kHuman] | grid_[kComp]) & 1 << square;
+bool Board::isOccupiedBy(unsigned square, Player player) const {
+  return grid[player] & 1 << square;
 }
 
-bool Board::IsOccupiedBy(unsigned square, Player player) const {
-  return grid_[player] & 1 << square;
-}
-
-unsigned Board::Occupancy() const {
+unsigned Board::occupancy() const {
   unsigned occupancy = 0;
 
   for (unsigned square = 0; square < 9; ++square) {
-    IsOccupied(square) && ++occupancy;
+    isOccupied(square) && ++occupancy;
   }
 
   return occupancy;
 }
 
-GameState Board::DetermineGameState() const {
-  static const int wins[] = {
-    0x007, 0x038, 0x1C0, 0x049,
-    0x092, 0x124, 0x111, 0x054
-  };
+GameState Board::gameState() const {
+  static const int wins[] = {0x007, 0x038, 0x1C0, 0x049,
+                             0x092, 0x124, 0x111, 0x054};
 
-  for (unsigned i = 0; i < 8; ++i) {
-    if ((grid_[kHuman] & wins[i]) == wins[i]) {
-      return kWinHuman;
+  for (size_t i = 0; i < 8; ++i) {
+    if ((grid[Human] & wins[i]) == wins[i]) {
+      return WinHuman;
     }
 
-    if ((grid_[kComp] & wins[i]) == wins[i]) {
-      return kWinComp;
+    if ((grid[Comp] & wins[i]) == wins[i]) {
+      return WinComp;
     }
   }
 
-  return Occupancy() == 9 ? kDraw : kPlaying;
+  return occupancy() == 9 ? Draw : Playing;
 }
 
-void Board::DoMove(unsigned square) {
-  grid_[player_to_move()] |= 1 << square;
-  TogglePlayerToMove();
+void Board::doMove(unsigned square) {
+  grid[player_to_move] |= 1 << square;
+  togglePlayerToMove();
 }
 
-void Board::UndoMove(unsigned square) {
-  TogglePlayerToMove();
-  grid_[player_to_move()] ^= 1 << square;
+void Board::undoMove(unsigned square) {
+  togglePlayerToMove();
+  grid[player_to_move] ^= 1 << square;
 }
 
-void Board::TogglePlayerToMove() {
-  player_to_move_ = IsComputerMove() ? kHuman : kComp;
-}
-
-}  // namespace tictactoe
+} // namespace tictactoe
