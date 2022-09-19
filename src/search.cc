@@ -5,15 +5,7 @@ namespace tictactoe::search {
 namespace {
 
 int GameOverScore(Board *board) {
-  GameState state = board->DetermineGameState();
-
-  if (state == kDraw) {
-    return 0;
-  }
-
-  int eval = kMaxEval - board->Occupancy();
-
-  return state == kWinHuman && !board->IsComputerMove() ? eval : -eval;
+  return board->DetermineGameState() == kDraw ? 0 : board->Occupancy() - kMaxEval;
 }
 
 }  // anonymous namespace
