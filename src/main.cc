@@ -14,9 +14,9 @@ using tictactoe::search::Search;
 ostream& operator<<(ostream &o, Board const &board) {
   for (unsigned square = 0; square < 9; ++square) {
     if (board.IsOccupiedBy(square, Player::kHuman)) {
-      o << 'o';
+      o << 'O';
     } else if (board.IsOccupiedBy(square, Player::kComp)) {
-      o << 'x';
+      o << 'X';
     } else {
       o << '-';
     }
@@ -51,8 +51,10 @@ int main() {
 
     board.DoMove(square - 1);
 
-    int best_move = Search(&board);
-    board.DoMove(best_move);
+    if (!board.IsGameOver()) {
+      int best_move = Search(&board);
+      board.DoMove(best_move);
+    }
 
     cout << endl << board << endl;
   }
